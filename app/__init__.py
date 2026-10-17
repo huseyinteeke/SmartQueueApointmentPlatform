@@ -1,0 +1,16 @@
+from flask import Flask
+
+from config import Config
+
+
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+    from app import db
+    db.init_app(app)
+
+    from app.main import main
+    app.register_blueprint(main)
+
+    return app
