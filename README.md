@@ -33,7 +33,7 @@ at the shop.
 
 | Member | Student ID | Responsibility | Tables |
 |---|---|---|---|
-| Hüseyin Teke (Team Leader) | 150230089 | Authentication, user accounts, businesses, admin panel (FR-01 to FR-07) | users, businesses, business_hours |
+| Hüseyin Teke (Team Leader) | 150230089 | Authentication, user accounts, businesses, admin panel (FR-01 to FR-07) | users, business_owners, businesses, business_hours |
 | Efe Karan Hacımustafaoğlu | 150240313 | Service catalog and employee-service matching (FR-08 to FR-14) | service_categories, services, employee_services |
 | Daniel Ikeoluwa Akosile | 150220936 | Employees, working schedules and time off (FR-15 to FR-21) | employees, employee_schedules, employee_time_off |
 | Yunus Kaan Öztürk | 150230107 | Appointment booking and reviews (FR-22 to FR-28) | appointments, reviews |
@@ -41,7 +41,7 @@ at the shop.
 
 ## Data Model
 
-The design has **13 related tables** (12 entities and 1 junction table). It contains one-to-one, one-to-many and
+The design has **14 related tables** (13 entities and 1 junction table). It contains one-to-one, one-to-many and
 many-to-many relationships. The full schema with columns, data types, keys and constraints is in the
 [Milestone 2 document](docs/milestone2/BBF302E_Milestone2_BeeBooking.pdf).
 
@@ -50,18 +50,19 @@ many-to-many relationships. The full schema with columns, data types, keys and c
 | # | Table | What it stores |
 |---|---|---|
 | 1 | `users` | All accounts and their roles |
-| 2 | `businesses` | Salons, repair shops and service centers |
-| 3 | `business_hours` | Weekly opening hours of each business |
-| 4 | `service_categories` | Service categories of each business |
-| 5 | `services` | Services with duration, price and status |
-| 6 | `employee_services` | Which employee performs which service (M:N junction table) |
-| 7 | `employees` | Staff profile of a user at a business (1:1 with users) |
-| 8 | `employee_schedules` | Weekly working shifts of employees |
-| 9 | `employee_time_off` | Vacation and sick leave periods |
-| 10 | `appointments` | Bookings with date, time, booked price and status |
-| 11 | `reviews` | Ratings, comments and owner replies of completed appointments (1:1 with appointments) |
-| 12 | `queues` | Daily virtual queues of businesses |
-| 13 | `queue_entries` | Customers waiting in queues |
+| 2 | `business_owners` | Owner profile of a user: company title, tax number, verification (1:1 with users) |
+| 3 | `businesses` | Salons, repair shops and service centers |
+| 4 | `business_hours` | Weekly opening hours of each business |
+| 5 | `service_categories` | Service categories of each business |
+| 6 | `services` | Services with duration, price and status |
+| 7 | `employee_services` | Which employee performs which service (M:N junction table) |
+| 8 | `employees` | Staff profile of a user at a business (1:1 with users) |
+| 9 | `employee_schedules` | Weekly working shifts of employees |
+| 10 | `employee_time_off` | Vacation and sick leave periods |
+| 11 | `appointments` | Bookings with date, time, booked price and status |
+| 12 | `reviews` | Ratings, comments and owner replies of completed appointments (1:1 with appointments) |
+| 13 | `queues` | Daily virtual queues of businesses |
+| 14 | `queue_entries` | Customers waiting in queues |
 
 Diagrams: [conceptual ER diagram](docs/milestone2/er_conceptual.png) · [relational schema](docs/milestone2/relational_schema.png).
 The editable draw.io file is [docs/milestone2/BeeBooking_ER.drawio](docs/milestone2/BeeBooking_ER.drawio)
