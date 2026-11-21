@@ -1,105 +1,141 @@
-# Smart Queue & Appointment Platform (QueueFlow)
+# Smart Queue & Appointment Platform
 
-A web-based platform for service businesses such as salons, barbers, repair shops and service centers to manage
-**appointments** and **virtual queues**. Customers can choose services and employees, book available time slots,
-join a queue remotely, and track their appointment history.
+**Team BeeBooking** · BBF 302E Database Systems term project, Fall 2026
 
-> BBF 302E Database Systems – Term Project, Fall 2026
+A web platform for service businesses such as hair salons, barbers, repair shops and service centers. Businesses
+manage their services, staff, working hours, appointments and walk-in customers in one place. Customers can book
+a service with the employee they prefer, or join a virtual queue and follow their turn remotely instead of waiting
+at the shop.
 
 ## Features
 
-- **Authentication & roles** – register / login / logout with role-based access (Admin, Business Owner, Employee, Customer, Guest)
-- **Businesses & services** – owners manage their business, services (duration, price) and staff
-- **Employee–service matching** – each employee is assigned the services they can perform
-- **Working schedules** – weekly working hours per employee
-- **Appointment booking** – pick a service, an employee and a date, see free slots and book; reschedule or cancel
-- **Virtual queue** – join a daily queue, get a ticket number, see your position and estimated waiting time
-- **Staff tools** – daily agenda, appointment status updates, call the next customer in the queue
-- **Reviews** – rate completed appointments (1–5 stars)
-- **Reports** – popular services, revenue, employee utilization, average waiting times
+- **Accounts and roles:** registration, login and role-based access for Admin, Business Owner, Employee, Customer and Guest
+- **Businesses:** business profiles with opening hours, search by name, category and city
+- **Services:** service catalog with categories, duration and price; services can be deactivated
+- **Employees:** staff management, employee-service matching, weekly working hours and time off
+- **Appointments:** pick a service, an employee and a free time slot; reschedule or cancel; appointment history
+- **Reviews:** 1 to 5 star reviews for completed appointments and replies from the business owner
+- **Virtual queue:** take a ticket, see your position and estimated waiting time; staff call the next customer; public queue display
+- **Reports:** bookings and revenue per service, employee performance, waiting times and busiest hours, platform statistics
 
 ## Tech Stack
 
 | Layer | Technology |
 |---|---|
 | Database | MySQL 8 (InnoDB) |
-| DB driver | mysql-connector-python – **raw SQL only, no ORM** |
-| Backend | Flask (Python) with Blueprints |
-| Frontend | Jinja2 templates + Bootstrap 5 |
-| Auth | Flask sessions + Werkzeug password hashing |
-| Sample data | Python + Faker |
-
-## Database Overview
-
-| # | Table | Description |
-|---|---|---|
-| 1 | `users` | All accounts and their roles |
-| 2 | `businesses` | Salons, repair shops, service centers |
-| 3 | `services` | Services offered by a business |
-| 4 | `employee_services` | Which employee can perform which service (M:N) |
-| 5 | `employees` | Staff profile of a user at a business (1:1 with users) |
-| 6 | `employee_schedules` | Weekly working hours |
-| 7 | `appointments` | Booked time slots |
-| 8 | `reviews` | Rating of a completed appointment (1:1 with appointments) |
-| 9 | `queues` | Daily virtual queues of a business |
-| 10 | `queue_entries` | Customers waiting in a queue |
+| DB driver | mysql-connector-python, **raw SQL only (no ORM)** |
+| Backend | Flask (Python) |
+| Frontend | Jinja2 templates and Bootstrap 5 |
+| Authentication | Flask sessions, Werkzeug password hashing, role-based access control |
+| Sample data | Python and Faker |
 
 ## Team
 
-| Member | Role | Tables |
-|---|---|---|
-| [Member 1] (Team Leader) | Authentication, users & businesses | users, businesses |
-| [Member 2] | Service catalog & employee–service matching | services, employee_services |
-| [Member 3] | Employees & working schedules | employees, employee_schedules |
-| [Member 4] | Appointments, booking & reviews | appointments, reviews |
-| [Member 5] | Virtual queues & queue statistics | queues, queue_entries |
+| Member | Student ID | Responsibility | Tables |
+|---|---|---|---|
+| Hüseyin Teke (Team Leader) | 150230089 | Authentication, user accounts, businesses, admin panel (FR-01 to FR-07) | users, businesses, business_hours |
+| Efe Karan Hacımustafaoğlu | 150240313 | Service catalog and employee-service matching (FR-08 to FR-14) | service_categories, services, employee_services |
+| Daniel Ikeoluwa Akosile | 150220936 | Employees, working schedules and time off (FR-15 to FR-21) | employees, employee_schedules, employee_time_off |
+| Yunus Kaan Öztürk | 150230107 | Appointment booking and reviews (FR-22 to FR-28) | appointments, reviews, review_replies |
+| Kerem Kavun | 150230014 | Virtual queues and queue statistics (FR-29 to FR-35) | queues, queue_entries |
 
-## Project Structure (planned)
+## Data Model
+
+The design has **14 related tables** (13 entities and 1 junction table). It contains one-to-one, one-to-many and
+many-to-many relationships. The full schema with columns, data types, keys and constraints is in the
+[Milestone 2 document](docs/milestone2/BBF302E_Milestone2_BeeBooking.pdf).
+
+![ER diagram overview](docs/milestone2/er_figures/fig1_overview.png)
+
+| # | Table | What it stores |
+|---|---|---|
+| 1 | `users` | All accounts and their roles |
+| 2 | `businesses` | Salons, repair shops and service centers |
+| 3 | `business_hours` | Weekly opening hours of each business |
+| 4 | `service_categories` | Service categories of each business |
+| 5 | `services` | Services with duration, price and status |
+| 6 | `employee_services` | Which employee performs which service (M:N junction table) |
+| 7 | `employees` | Staff profile of a user at a business (1:1 with users) |
+| 8 | `employee_schedules` | Weekly working shifts of employees |
+| 9 | `employee_time_off` | Vacation and sick leave periods |
+| 10 | `appointments` | Booked time slots |
+| 11 | `reviews` | Ratings of completed appointments (1:1 with appointments) |
+| 12 | `review_replies` | Owner replies to reviews (1:1 with reviews) |
+| 13 | `queues` | Daily virtual queues of businesses |
+| 14 | `queue_entries` | Customers waiting in queues |
+
+Detailed ER figures: [accounts and services](docs/milestone2/er_figures/fig2_accounts.png),
+[booking and reviews](docs/milestone2/er_figures/fig3_booking.png),
+[queues](docs/milestone2/er_figures/fig4_queues.png).
+
+## Documents
+
+| Milestone | Document |
+|---|---|
+| Milestone 1: Project proposal | [PDF](docs/milestone1/BBF302E_Milestone1_Proposal_BeeBooking.pdf) · [Word](docs/milestone1/BBF302E_Milestone1_Proposal_BeeBooking.docx) |
+| Milestone 2: ER diagram and data model | [PDF](docs/milestone2/BBF302E_Milestone2_BeeBooking.pdf) · [Word](docs/milestone2/BBF302E_Milestone2_BeeBooking.docx) |
+
+## Project Structure
 
 ```
 app/
-  __init__.py          # create_app(), blueprint registration
-  db.py                # MySQL connection helpers
-  auth/                # login, register, roles
-  businesses/
-  services/
-  employees/
-  appointments/
-  queues/
-  templates/           # Jinja2 templates (Bootstrap 5)
-  static/
+  __init__.py          Flask app factory
+  db.py                MySQL connection and raw SQL helpers
+  main.py              home page and /health database check
+  templates/           Jinja2 templates (Bootstrap 5)
 sql/
-  schema.sql           # CREATE TABLE statements
-  seed.py              # sample data generator (Faker)
+  create_database.sql  creates the database and the application user
+docs/
+  milestone1/          Milestone 1 proposal
+  milestone2/          Milestone 2 document and ER figures
+config.py              reads settings from .env
+run.py                 starts the app
+setup.ps1              one-time local setup (Windows)
 requirements.txt
-run.py
+.env.example
 ```
 
-## Setup (will be finalized during development)
+Planned for the next milestones: one module per feature area (auth, businesses, services, employees,
+appointments, queues), `sql/schema.sql` with all tables and constraints, and a Faker script for sample data.
 
-```bash
-git clone https://github.com/huseyinteeke/SmartQueueApointmentPlatform.git
-cd SmartQueueApointmentPlatform
-python -m venv venv
-venv\Scripts\activate          # Windows  (macOS/Linux: source venv/bin/activate)
-pip install -r requirements.txt
-```
+## Setup
 
-1. Create a MySQL database and run `sql/schema.sql`.
-2. Copy `.env.example` to `.env` and fill in your MySQL credentials.
-3. Populate sample data: `python sql/seed.py`
-4. Start the app: `flask --app run run --debug`
+Requirements: Python 3.11 or newer, MySQL Server 8.
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/huseyinteeke/SmartQueueApointmentPlatform.git
+   cd SmartQueueApointmentPlatform
+   ```
+2. Run the setup script in PowerShell. It creates the `.venv` virtual environment, installs the packages and
+   creates a `.env` file with a random secret key:
+   ```powershell
+   .\setup.ps1
+   ```
+   On macOS or Linux: `python3 -m venv .venv`, `source .venv/bin/activate`, `pip install -r requirements.txt`,
+   then copy `.env.example` to `.env`.
+3. Open `sql/create_database.sql`, replace `change-me` with your own password, and run it as the MySQL root user:
+   ```bash
+   mysql -u root -p < sql/create_database.sql
+   ```
+4. Write the same password into `.env` as `DB_PASSWORD`.
+5. Start the app:
+   ```powershell
+   .\.venv\Scripts\Activate.ps1
+   flask run
+   ```
+6. Open http://127.0.0.1:5000/health. If you see `"status": "ok"`, the app is connected to MySQL.
 
 ## Milestones
 
-- [ ] **M1** – Project proposal & group formation (16.10.2026)
-- [ ] **M2** – ER diagram & data model design (15.11.2026)
-- [ ] **M3** – Database implementation & Flask app skeleton (11.12.2026)
-- [ ] **M4** – CRUD, complex queries, authentication, demo & documentation (22.12.2026)
+- [x] **Milestone 1:** Project proposal and group formation (16.10.2026)
+- [x] **Milestone 2:** ER diagram and data model design (due 22.11.2026)
+- [ ] **Milestone 3:** Database implementation and Flask application (11.12.2026)
+- [ ] **Milestone 4:** CRUD, complex queries, authentication, demo and documentation (22.12.2026)
 
 ## Contribution Rules
 
-- Everyone commits **with their own GitHub account**, regularly.
+- Everyone commits **with their own GitHub account**, regularly. The repository is used to evaluate individual contributions.
 - Work on a feature branch (e.g. `feature/appointments`) and open a pull request to `main`.
 - Write clear commit messages (e.g. `Add service create form and INSERT query`).
-- Never commit `.env` or database passwords.
+- Never commit `.env`, `.venv` or database passwords.
