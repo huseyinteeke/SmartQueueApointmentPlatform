@@ -1,0 +1,72 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:#fff}#wrap{display:inline-block;padding:20px}</style>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script></head>
+<body><div id="wrap"><pre class="mermaid">
+erDiagram
+    USER ||--o{ BUSINESS : owns
+    USER ||--o| EMPLOYEE : "has staff profile"
+    BUSINESS ||--|{ BUSINESS_HOURS : "open during"
+    BUSINESS ||--o{ SERVICE_CATEGORY : defines
+    BUSINESS ||--o{ SERVICE : offers
+    SERVICE_CATEGORY |o--o{ SERVICE : groups
+    BUSINESS ||--o{ EMPLOYEE : employs
+    EMPLOYEE }o--o{ SERVICE : performs
+    USER {
+        int user_id PK
+        varchar full_name
+        varchar email UK
+        varchar password_hash
+        varchar phone
+        enum role
+        boolean is_active
+        datetime created_at
+    }
+    BUSINESS {
+        int business_id PK
+        int owner_id FK
+        varchar name
+        enum category
+        varchar city
+        varchar address
+        varchar phone
+        text description
+        boolean is_active
+        datetime created_at
+    }
+    BUSINESS_HOURS {
+        int business_hours_id PK
+        int business_id FK
+        tinyint day_of_week
+        time open_time
+        time close_time
+        boolean is_closed
+    }
+    SERVICE_CATEGORY {
+        int category_id PK
+        int business_id FK
+        varchar name
+        varchar description
+    }
+    SERVICE {
+        int service_id PK
+        int business_id FK
+        int category_id FK
+        varchar name
+        text description
+        smallint duration_min
+        decimal price
+        boolean is_active
+        datetime created_at
+    }
+    EMPLOYEE {
+        int employee_id PK
+        int user_id FK "UNIQUE"
+        int business_id FK
+        varchar job_title
+        date hire_date
+        boolean is_active
+    }
+</pre></div>
+<script>mermaid.initialize({startOnLoad:true, theme:'neutral',
+ er:{useMaxWidth:false, fontSize:15, layoutDirection:'TB', minEntityWidth:110, entityPadding:12}});</script>
+</body></html>

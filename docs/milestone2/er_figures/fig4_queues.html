@@ -1,0 +1,47 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:#fff}#wrap{display:inline-block;padding:20px}</style>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script></head>
+<body><div id="wrap"><pre class="mermaid">
+erDiagram
+    BUSINESS ||--o{ QUEUE : runs
+    SERVICE |o--o{ QUEUE : "queue for"
+    QUEUE ||--o{ QUEUE_ENTRY : contains
+    USER |o--o{ QUEUE_ENTRY : joins
+    EMPLOYEE |o--o{ QUEUE_ENTRY : calls
+    QUEUE {
+        int queue_id PK
+        int business_id FK
+        int service_id FK
+        date queue_date
+        smallint max_capacity
+        enum status
+        smallint avg_service_min
+        datetime created_at
+    }
+    QUEUE_ENTRY {
+        int entry_id PK
+        int queue_id FK
+        int customer_id FK
+        smallint ticket_no
+        enum status
+        datetime joined_at
+        datetime called_at
+        datetime served_at
+        int served_by FK
+    }
+    USER {
+        int user_id PK
+    }
+    BUSINESS {
+        int business_id PK
+    }
+    SERVICE {
+        int service_id PK
+    }
+    EMPLOYEE {
+        int employee_id PK
+    }
+</pre></div>
+<script>mermaid.initialize({startOnLoad:true, theme:'neutral',
+ er:{useMaxWidth:false, fontSize:15, layoutDirection:'TB', minEntityWidth:110, entityPadding:12}});</script>
+</body></html>
