@@ -64,7 +64,10 @@ many-to-many relationships. The full schema with columns, data types, keys and c
 | 13 | `queues` | Daily virtual queues of businesses |
 | 14 | `queue_entries` | Customers waiting in queues |
 
-Diagrams: [conceptual ER diagram](docs/milestone2/er_conceptual.png) · [relational schema](docs/milestone2/relational_schema.png).
+Conceptual ER diagram in Chen notation: [overview](docs/milestone2/er_1a_overview.png) ·
+[users and businesses](docs/milestone2/er_1b_users_businesses.png) ·
+[staff and appointments](docs/milestone2/er_1c_staff_appointments.png) ·
+[queues](docs/milestone2/er_1d_queues.png). Relational schema: [relational_schema.png](docs/milestone2/relational_schema.png).
 The editable draw.io file is [docs/milestone2/BeeBooking_ER.drawio](docs/milestone2/BeeBooking_ER.drawio)
 (open it at [app.diagrams.net](https://app.diagrams.net) with File > Open from > Device).
 
