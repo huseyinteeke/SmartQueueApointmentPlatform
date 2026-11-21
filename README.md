@@ -14,7 +14,7 @@ at the shop.
 - **Services:** service catalog with categories, duration and price; services can be deactivated
 - **Employees:** staff management, employee-service matching, weekly working hours and time off
 - **Appointments:** pick a service, an employee and a free time slot; reschedule or cancel; appointment history
-- **Reviews:** 1 to 5 star reviews for completed appointments and replies from the business owner
+- **Reviews:** 1 to 5 star reviews for completed appointments, with an optional reply from the business owner
 - **Virtual queue:** take a ticket, see your position and estimated waiting time; staff call the next customer; public queue display
 - **Reports:** bookings and revenue per service, employee performance, waiting times and busiest hours, platform statistics
 
@@ -36,16 +36,16 @@ at the shop.
 | Hüseyin Teke (Team Leader) | 150230089 | Authentication, user accounts, businesses, admin panel (FR-01 to FR-07) | users, businesses, business_hours |
 | Efe Karan Hacımustafaoğlu | 150240313 | Service catalog and employee-service matching (FR-08 to FR-14) | service_categories, services, employee_services |
 | Daniel Ikeoluwa Akosile | 150220936 | Employees, working schedules and time off (FR-15 to FR-21) | employees, employee_schedules, employee_time_off |
-| Yunus Kaan Öztürk | 150230107 | Appointment booking and reviews (FR-22 to FR-28) | appointments, reviews, review_replies |
+| Yunus Kaan Öztürk | 150230107 | Appointment booking and reviews (FR-22 to FR-28) | appointments, reviews |
 | Kerem Kavun | 150230014 | Virtual queues and queue statistics (FR-29 to FR-35) | queues, queue_entries |
 
 ## Data Model
 
-The design has **14 related tables** (13 entities and 1 junction table). It contains one-to-one, one-to-many and
+The design has **13 related tables** (12 entities and 1 junction table). It contains one-to-one, one-to-many and
 many-to-many relationships. The full schema with columns, data types, keys and constraints is in the
 [Milestone 2 document](docs/milestone2/BBF302E_Milestone2_BeeBooking.pdf).
 
-![ER diagram overview](docs/milestone2/er_figures/fig1_overview.png)
+![Relational schema](docs/milestone2/relational_schema.png)
 
 | # | Table | What it stores |
 |---|---|---|
@@ -58,15 +58,14 @@ many-to-many relationships. The full schema with columns, data types, keys and c
 | 7 | `employees` | Staff profile of a user at a business (1:1 with users) |
 | 8 | `employee_schedules` | Weekly working shifts of employees |
 | 9 | `employee_time_off` | Vacation and sick leave periods |
-| 10 | `appointments` | Booked time slots |
-| 11 | `reviews` | Ratings of completed appointments (1:1 with appointments) |
-| 12 | `review_replies` | Owner replies to reviews (1:1 with reviews) |
-| 13 | `queues` | Daily virtual queues of businesses |
-| 14 | `queue_entries` | Customers waiting in queues |
+| 10 | `appointments` | Bookings with date, time, booked price and status |
+| 11 | `reviews` | Ratings, comments and owner replies of completed appointments (1:1 with appointments) |
+| 12 | `queues` | Daily virtual queues of businesses |
+| 13 | `queue_entries` | Customers waiting in queues |
 
-Detailed ER figures: [accounts and services](docs/milestone2/er_figures/fig2_accounts.png),
-[booking and reviews](docs/milestone2/er_figures/fig3_booking.png),
-[queues](docs/milestone2/er_figures/fig4_queues.png).
+Diagrams: [conceptual ER diagram](docs/milestone2/er_conceptual.png) · [relational schema](docs/milestone2/relational_schema.png).
+The editable draw.io file is [docs/milestone2/BeeBooking_ER.drawio](docs/milestone2/BeeBooking_ER.drawio)
+(open it at [app.diagrams.net](https://app.diagrams.net) with File > Open from > Device).
 
 ## Documents
 
@@ -87,7 +86,7 @@ sql/
   create_database.sql  creates the database and the application user
 docs/
   milestone1/          Milestone 1 proposal
-  milestone2/          Milestone 2 document and ER figures
+  milestone2/          Milestone 2 document, draw.io ER diagram and its PNG exports
 config.py              reads settings from .env
 run.py                 starts the app
 setup.ps1              one-time local setup (Windows)
